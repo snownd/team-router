@@ -1,0 +1,37 @@
+services:
+  postgres:
+    # PostgreSQL 18+: PGDATA 变为 /var/lib/postgresql/<major>/docker，
+    # VOLUME 定义改为 /var/lib/postgresql，因此挂载到该路径（而非 .../data）。
+    # 实际数据会写入 ./data/db/18/docker/，未来大版本升级可用 pg_upgrade --link。
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_USER: tr
+      POSTGRES_PASSWORD: teamrouteru
+      POSTGRES_DB: team_router
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./data/db:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  gateway:
+    build: ..
+    # 本目录内构建可用：build: .（将 compose 文件放仓库根目录时）
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      TR_DATABASE_DSN: "host=postgres port=5432 user=tr password=teamrouteru dbname=team_router sslmode=disable"
+      TR_SERVER_ADDR: ":8080"
+      TR_AUTH_JWT_SECRET: "change-me-in-production"
+      # 生产必须配置 32 字节 hex（64 字符）：
+      #   openssl rand -hex 32
+      TR_CRYPTO_MASTER_KEY: "47817da1a70b35f511244f4b4ec36e40648bc29e330e770ae78362ba6a105d90"
+      TR_LOG_LEVEL: info
+      TR_LOG_DEV: "false"
+    ports:
+      - "8080:8080"

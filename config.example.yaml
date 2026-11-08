@@ -1,0 +1,56 @@
+# team-router 配置示例
+# 环境变量优先级更高：TR_DATABASE_DSN / TR_SERVER_ADDR / TR_AUTH_JWT_SECRET /
+# TR_CRYPTO_MASTER_KEY / TR_LOG_LEVEL / TR_LOG_FILE / TR_LOG_DEV
+
+server:
+  addr: ":8080"
+  graceful_shutdown_timeout: 30s
+
+database:
+  dsn: "host=localhost port=5432 user=postgres password=postgres dbname=team_router sslmode=disable"
+  max_open_conns: 50
+  max_idle_conns: 10
+  conn_max_lifetime: 1h
+  slow_query_threshold: 500ms
+  skip_default_transaction: true
+
+log:
+  level: info
+  dev: true            # true: console 彩色输出；false: JSON
+  # file_path: /var/log/team-router/gateway.log   # 留空写 stderr
+  max_size_mb: 100
+  max_age_days: 30
+  max_backups: 10
+
+auth:
+  jwt_secret: "change-me-in-production"
+  token_ttl: 24h
+  api_cache_seconds: 60
+
+crypto:
+  # 32 字节 hex（64 个字符），用于加密 provider 上游密钥；留空使用内置开发密钥（生产必须配置）
+  master_key: ""
+
+relay:
+  connect_timeout: 10s
+  upstream_timeout: 10m
+  max_retries: 3
+  default_max_tokens: 8192
+  idle_stream_timeout: 2m
+  channel_queue_timeout: 60s   # 渠道并发满时排队上限，超时直接 429
+  sticky_session_ttl: 30m      # 粘性路由会话 TTL（滑动续期），负值关闭
+
+partitions:
+  precreate_months: 3    # 预建未来分区月数
+  retention_months: 0    # 0 = 永久保留
+  maintenance_interval: 12h
+
+billing:
+  allow_unknown_pricing: true   # 模型未配置价格时放行并按 0 计费（标记 estimated）
+  price_cache_seconds: 60
+
+seed:
+  admin_username: admin
+  admin_password: admin123
+  admin_email: admin@example.com
+  root_department_name: "总部"

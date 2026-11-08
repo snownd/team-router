@@ -1,0 +1,13 @@
+# Postgres 绑定挂载数据卷（root 权限，进入构建上下文会导致 permission denied）
+deploy/data
+
+# Git 元数据
+.git
+
+# 本地配置与密钥（禁止进入镜像）
+config.yaml
+.env
+
+# 前端依赖与产物（网关镜像仅编译 Go 二进制）
+frontend/node_modules
+frontend/dist

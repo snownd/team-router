@@ -1,0 +1,51 @@
+# 本地开发配置（不入库）
+server:
+  addr: ":8080"
+  graceful_shutdown_timeout: 30s
+
+database:
+  dsn: "host=localhost port=5433 user=postgres password=postgres dbname=team_router sslmode=disable"
+  max_open_conns: 50
+  max_idle_conns: 10
+  conn_max_lifetime: 1h
+  slow_query_threshold: 500ms
+  skip_default_transaction: true
+
+log:
+  level: info
+  dev: true
+  max_size_mb: 100
+  max_age_days: 30
+  max_backups: 10
+
+auth:
+  jwt_secret: "dev-secret-local-only"
+  token_ttl: 24h
+  api_cache_seconds: 60
+
+crypto:
+  master_key: ""
+
+relay:
+  connect_timeout: 10s
+  upstream_timeout: 10m
+  max_retries: 3
+  default_max_tokens: 8192
+  idle_stream_timeout: 2m
+  channel_queue_timeout: 60s
+  sticky_session_ttl: 30m
+
+partitions:
+  precreate_months: 3
+  retention_months: 0
+  maintenance_interval: 12h
+
+billing:
+  allow_unknown_pricing: true
+  price_cache_seconds: 60
+
+seed:
+  admin_username: admin
+  admin_password: admin123
+  admin_email: admin@example.com
+  root_department_name: "总部"

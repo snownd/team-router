@@ -1,0 +1,130 @@
+/* Hallmark · v2.0.0 · 2026-11-02
+   built: the project · redesign: full · scope: app · genre: modern-minimal
+   theme: brand (Arco teal #14C9C9 ramp, kept by request)
+   critique: P3 H4 E4 S3 R4 V3 · weakest: S — an internal admin console by nature; specificity comes from the token-billing data itself
+   waived: 26a, 26b — every control is an Arco component; :focus-visible and :active ship in arco.css (67 focus / 45 active rules)
+   dropped: the admin dashboard's 时间范围 stat card — the range stays visible in the picker that sets it
+*/
+/* Arco 以 "R, G, B" 三元组存 CSS 变量（rgb(var(--primary-6)) 取用），需按三元组覆盖 */
+:root,
+body {
+  --primary-1: 232, 255, 251; /* #E8FFFB */
+  --primary-2: 183, 244, 236; /* #B7F4EC */
+  --primary-3: 137, 233, 224; /* #89E9E0 */
+  --primary-4: 94, 223, 214; /* #5EDFD6 */
+  --primary-5: 55, 212, 207; /* #37D4CF */
+  --primary-6: 20, 201, 201; /* #14C9C9 */
+  --primary-7: 13, 165, 170; /* #0DA5AA */
+  --primary-8: 7, 130, 139; /* #07828B */
+  --primary-9: 3, 97, 108; /* #03616C */
+  --primary-10: 0, 66, 77; /* #00424D */
+
+  /* 深色 Sider 上的浅色分隔线 */
+  --sider-line: 255, 255, 255;
+}
+
+html,
+body {
+  overflow-x: clip;
+}
+
+body {
+  margin: 0;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== 工作台共享版式 ===== */
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 表格卡头：左侧标题 + 数量，右侧主操作 */
+.table-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.table-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text-1);
+}
+
+/* 统计卡：彩色图标芯片 + 标签 + 大数值（Arco Pro 数据面板模式） */
+.stat-main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.stat-body {
+  min-width: 0;
+  flex: 1;
+}
+
+.stat-label {
+  margin-bottom: 4px;
+  font-size: 13px;
+  color: var(--color-text-3);
+}
+
+.stat-value {
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 28px;
+  color: var(--color-text-1);
+  overflow-wrap: anywhere;
+}
+
+.stat-progress {
+  margin-top: 12px;
+}
+
+.stat-value-sm {
+  font-size: 15px;
+  line-height: 22px;
+}
+
+.stat-chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  font-size: 20px;
+  background: rgb(var(--primary-1));
+  color: rgb(var(--primary-6));
+}
+
+.stat-chip.is-blue {
+  background: rgb(var(--arcoblue-1));
+  color: rgb(var(--arcoblue-6));
+}
+
+.stat-chip.is-gold {
+  background: rgb(var(--gold-1));
+  color: rgb(var(--gold-6));
+}
+
+.stat-chip.is-green {
+  background: rgb(var(--green-1));
+  color: rgb(var(--green-6));
+}
+
+.stat-chip.is-purple {
+  background: rgb(var(--purple-1));
+  color: rgb(var(--purple-6));
+}
